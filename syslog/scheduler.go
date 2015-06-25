@@ -246,11 +246,12 @@ func param(key string, value string) string {
 func (ss *SyslogScheduler) createExecutor(instanceId int32, tcpPort uint64, udpPort uint64) *mesos.ExecutorInfo {
 	log.Println("Creating executor")
 	path := strings.Split(ss.config.ExecutorArchiveName, "/")
+	var brokers string
 
 	if ss.config.BrokerList != "" {
-		brokers := ss.config.BrokerList
+		brokers = ss.config.BrokerList
 	} else {
-		brokers := strings.Join(getBrokers(ss.config.Master), ",")
+		brokers = strings.Join(getBrokers(ss.config.Master), ",")
 	}
 
 	params := []string{param("log.level", ss.config.LogLevel),

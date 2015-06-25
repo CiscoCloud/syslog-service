@@ -35,7 +35,7 @@ var (
 	artifactServerHost  = flag.String("artifact.host", "master", "Binding host for artifact server.")
 	artifactServerPort  = flag.Int("artifact.port", 6666, "Binding port for artifact server.")
 	master              = flag.String("master", "master:5050", "Mesos Master address <ip:port>.")
-	executorArchiveName = flag.String("executor.archive", "executor.tar", "Executor archive name. Absolute or relative path are both ok.")
+	executorArchiveName = flag.String("executor.archive", "executor.zip", "Executor archive name. Absolute or relative path are both ok.")
 	executorBinaryName  = flag.String("executor.name", "executor", "Executor binary name contained in archive.")
 	cpuPerTask          = flag.Float64("cpu.per.task", 0.2, "CPUs per task.")
 	memPerTask          = flag.Float64("mem.per.task", 256, "Memory per task.")

@@ -73,6 +73,9 @@ type SyslogSchedulerConfig struct {
 
 	// Mesos master ip:port
 	Master string
+
+	// Broker list
+	BrokerList string
 }
 
 func NewSyslogScheduler(config SyslogSchedulerConfig) *SyslogScheduler {
@@ -244,7 +247,11 @@ func (ss *SyslogScheduler) createExecutor(instanceId int32, tcpPort uint64, udpP
 	log.Println("Creating executor")
 	path := strings.Split(ss.config.ExecutorArchiveName, "/")
 
-	brokers := getBrokers(ss.config.Master)
+	if ss.config.BrokerList != "" {
+		brokers := ss.config.BrokerList
+	} else {
+		brokers := strings.Join(getBrokers(ss.config.Master), ",")
+	}
 
 	params := []string{param("log.level", ss.config.LogLevel),
 		param("producer.config", ss.config.ProducerConfig),
@@ -252,12 +259,10 @@ func (ss *SyslogScheduler) createExecutor(instanceId int32, tcpPort uint64, udpP
 		param("topic", ss.config.Topic),
 		param("tcp.port", strconv.FormatUint(tcpPort, 10)),
 		param("udp.port", strconv.FormatUint(udpPort, 10)),
-		//		param("max.procs", strconv.FormatFloat(ss.config.CpuPerTask, 'f', 2, 64)),
-		param("broker.list", strings.Join(brokers, ",")),
+		param("broker.list", brokers),
 	}
 
 	paramString := strings.Join(params, " ")
-	log.Printf("Param string: %s\n", paramString)
 
 	return &mesos.ExecutorInfo{
 		ExecutorId: util.NewExecutorID(fmt.Sprintf("syslog-%d", instanceId)),

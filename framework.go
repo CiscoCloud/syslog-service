@@ -43,6 +43,8 @@ var (
 	topic               = flag.String("topic", "", "Topic to produce transformed data to.")
 	sync                = flag.Bool("sync", false, "Flag to respond only after decoding-encoding is done.")
 	logLevel            = flag.String("log.level", "info", "Level of logging.")
+	brokerList          = flag.String("broker.list", "", "Optional broker List to produce messages to.")
+	user                = flag.String("user", "vagrant", "User to run executor.")
 )
 
 func parseAndValidateSchedulerArgs() {
@@ -84,7 +86,7 @@ func main() {
 	signal.Notify(ctrlc, os.Interrupt)
 
 	frameworkInfo := &mesosproto.FrameworkInfo{
-		User: proto.String("vagrant"),
+		User: proto.String(*user),
 		Name: proto.String("Go Syslog Framework"),
 	}
 
@@ -101,6 +103,7 @@ func main() {
 	schedulerConfig.Sync = *sync
 	schedulerConfig.Master = *master
 	schedulerConfig.LogLevel = *logLevel
+	schedulerConfig.BrokerList = *brokerList
 
 	go startArtifactServer(schedulerConfig)
 

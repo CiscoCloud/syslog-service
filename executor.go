@@ -40,7 +40,7 @@ var (
 	udpPort        = flag.String("udp.port", "5141", "UDP port to listen for incoming messages.")
 	udpHost        = flag.String("udp.host", "0.0.0.0", "UDP host to listen for incoming messages.")
 	maxProcs       = flag.Int("max.procs", runtime.NumCPU(), "Maximum number of CPUs that can be executing simultaneously.")
-	brokerList     = flag.String("broker.list", "", "Broker List to produce messages too.")
+	brokerList     = flag.String("broker.list", "", "Broker List to produce messages to.")
 	requiredAcks   = flag.Int("required.acks", 1, "Required acks for producer. 0 - no server response. 1 - the server will wait the data is written to the local log. -1 - the server will block until the message is committed by all in sync replicas.")
 	acksTimeout    = flag.Int("acks.timeout", 1000, "This provides a maximum time in milliseconds the server can await the receipt of the number of acknowledgements in RequiredAcks.")
 )
